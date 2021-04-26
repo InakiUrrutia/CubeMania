@@ -7,8 +7,12 @@ public class Player : MonoBehaviour
 
     public Rigidbody _body;
 
-    public float speed = 100f;
-    public float JumpHeight = 2f;
+    public float speed = 5f;
+    public float horSpeed;
+    public float verSpeed;
+    public float jumpHeight = 20f;
+
+    public bool isJumping = false;
 
     private float distToGround;
 
@@ -21,31 +25,39 @@ public class Player : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update(){
+    void Update()
+    {
+        this.horSpeed = Input.GetAxisRaw("Horizontal");
+        this.verSpeed = Input.GetAxisRaw("Vertical");
+        this._inputs = new Vector3(this.horSpeed, 0f, this.verSpeed);
+        if (this._inputs != Vector3.zero) // Rotates the cube
+        {
+            this._body.AddTorque(this.verSpeed * 90, 0, -this.horSpeed * 90);
+        }
 
-        float hor = Input.GetAxisRaw("Horizontal");
-        float ver = Input.GetAxisRaw("Vertical");
-        _inputs = new Vector3(hor, 0f, ver).normalized;
-        if(_inputs!= Vector3.zero)
+        if (Input.GetButtonDown("Jump")) // Jumps when press spacebar
         {
-            transform.forward = _inputs;
+            this._body.AddForce(Vector3.up * Mathf.Sqrt(this.jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+            this.isJumping = true;
         }
-        transform.rotation = Quaternion.Euler(0,0,0);
-        if (Input.GetButtonDown("Jump") && isGrounded() )
+
+        if (this.isJumping) // Move while in air
         {
-            _body.AddForce(Vector3.up * Mathf.Sqrt(JumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
+            this._body.MovePosition(_body.position + _inputs * speed * Time.deltaTime);
         }
+        else
+        {
+            this._body.MovePosition(_body.position + _inputs * (speed / 5.0f) * Time.deltaTime);
+        }
+
 
     }
 
-    void FixedUpdate()
+    void OnCollisionEnter(Collision collision)
     {
-        _body.MovePosition(_body.position + _inputs * speed * Time.fixedDeltaTime);
-   
-    }
-
-    bool isGrounded()
-    {
-        return Physics.Raycast(transform.position, Vector3.down, distToGround + 0.1f);
+        if (this.isJumping)
+        {
+            this.isJumping = false;
+        }
     }
 }
