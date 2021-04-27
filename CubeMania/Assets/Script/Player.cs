@@ -2,6 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum Shape
+{
+    CUBE = 1,
+    BALL = 2
+}
+
 public class Player : MonoBehaviour
 {
 
@@ -10,7 +16,7 @@ public class Player : MonoBehaviour
     public float speed = 5f;
     public float horSpeed;
     public float verSpeed;
-    public float jumpHeight = 20f;
+    public float jumpHeight = 200f;
 
     public bool isJumping = false;
 
@@ -18,36 +24,52 @@ public class Player : MonoBehaviour
 
     public Vector3 _inputs;
 
+    public GameObject player;
+
+    public Mesh sphere;
+    public Mesh cube;
+    public BoxCollider boxCollider;
+    public SphereCollider sphereCollider;
+
+    public int shape = 1;
+
+
     void Start()
     {
-        _body = GetComponent<Rigidbody>();
-        distToGround = GetComponent<Collider>().bounds.extents.y;
     }
 
     // Update is called once per frame
     void Update()
     {
-        this.horSpeed = Input.GetAxisRaw("Horizontal");
-        this.verSpeed = Input.GetAxisRaw("Vertical");
-        this._inputs = new Vector3(this.horSpeed, 0f, this.verSpeed);
-        if (this._inputs != Vector3.zero) // Rotates the cube
+        horSpeed = Input.GetAxisRaw("Horizontal");
+        verSpeed = Input.GetAxisRaw("Vertical");
+        _inputs = new Vector3(horSpeed, 0f, verSpeed);
+        if ( _inputs != Vector3.zero) // Rotates the cube
         {
-            this._body.AddTorque(this.verSpeed * 90, 0, -this.horSpeed * 90);
+            _body.AddTorque(verSpeed * 90, 0, -horSpeed * 90);
         }
 
-        if (Input.GetButtonDown("Jump")) // Jumps when press spacebar
+        if (Input.GetButtonDown("Jump") && !isJumping) // Jumps when press spacebar
         {
-            this._body.AddForce(Vector3.up * Mathf.Sqrt(this.jumpHeight * -2f * Physics.gravity.y), ForceMode.VelocityChange);
-            this.isJumping = true;
+            _body.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
+            isJumping = true;
         }
 
-        if (this.isJumping) // Move while in air
+        if (isJumping) // Move while in air
         {
-            this._body.MovePosition(_body.position + _inputs * speed * Time.deltaTime);
+            _body.MovePosition(_body.position + _inputs * (speed / 2.5f) * Time.deltaTime);
         }
         else
         {
-            this._body.MovePosition(_body.position + _inputs * (speed / 5.0f) * Time.deltaTime);
+            _body.MovePosition(_body.position + _inputs * (speed / 5.0f) * Time.deltaTime);
+        }
+
+        if (Input.GetKeyDown("tab"))
+        {
+            player.GetComponent<MeshFilter>().mesh = sphere;
+            boxCollider.enabled = false;
+            sphereCollider.enabled = true;
+            ChangeShape();
         }
 
 
@@ -55,9 +77,36 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (this.isJumping)
+        if (isJumping)
         {
-            this.isJumping = false;
+            isJumping = false;
         }
+    }
+
+    void ChangeShape()
+    {
+        if(shape == (int) Shape.CUBE)
+        {
+            shape = (int)Shape.BALL;
+            BuildSphere();
+            return;
+        }
+        shape = (int)Shape.CUBE;
+        BuildCube();
+        return;
+    }
+
+    void BuildCube()
+    {
+        player.GetComponent<MeshFilter>().mesh = cube;
+        boxCollider.enabled = true;
+        sphereCollider.enabled = false;
+    }
+
+    void BuildSphere()
+    {
+         player.GetComponent<MeshFilter>().mesh = sphere;
+         boxCollider.enabled = false;
+         sphereCollider.enabled = true;
     }
 }
