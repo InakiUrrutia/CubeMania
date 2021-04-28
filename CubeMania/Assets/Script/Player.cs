@@ -12,6 +12,8 @@ public class Player : MonoBehaviour
 {
 
     public Rigidbody _body;
+    public GameObject player;
+    public Camera mainCamera;
 
     public float speed = 5f;
     public float horSpeed;
@@ -20,11 +22,7 @@ public class Player : MonoBehaviour
 
     public bool isJumping = false;
 
-    private float distToGround;
-
     public Vector3 _inputs;
-
-    public GameObject player;
 
     public Mesh sphere;
     public Mesh cube;
@@ -35,12 +33,12 @@ public class Player : MonoBehaviour
 
 
     void Start()
-    {
-    }
+    {}
 
     // Update is called once per frame
     void Update()
     {
+
         horSpeed = Input.GetAxisRaw("Horizontal");
         verSpeed = Input.GetAxisRaw("Vertical");
         _inputs = new Vector3(horSpeed, 0f, verSpeed);
@@ -72,7 +70,7 @@ public class Player : MonoBehaviour
             ChangeShape();
         }
 
-
+        UpdateCamera();
     }
 
     void OnCollisionEnter(Collision collision)
@@ -105,8 +103,14 @@ public class Player : MonoBehaviour
 
     void BuildSphere()
     {
-         player.GetComponent<MeshFilter>().mesh = sphere;
-         boxCollider.enabled = false;
-         sphereCollider.enabled = true;
+        player.GetComponent<MeshFilter>().mesh = sphere;
+        boxCollider.enabled = false;
+        sphereCollider.enabled = true;
+    }
+
+    void UpdateCamera()
+    {
+        mainCamera.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 4.5f, player.transform.position.z - 10.0f);
+        mainCamera.transform.LookAt(player.transform.position);
     }
 }
