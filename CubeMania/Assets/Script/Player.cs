@@ -31,6 +31,7 @@ public class Player : MonoBehaviour
 
     public int shape = 1;
 
+    public Vector3 startPosition = new Vector3(0.0f, 0.5f, -7.0f);
 
     void Start()
     {}
@@ -110,7 +111,12 @@ public class Player : MonoBehaviour
 
     void UpdateCamera()
     {
-        mainCamera.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 4.5f, player.transform.position.z - 10.0f);
+        mainCamera.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 4.5f, player.transform.position.z - 8.0f);
         mainCamera.transform.LookAt(player.transform.position);
+    }
+
+    public void resetPosition()
+    {
+        player.transform.position = startPosition;
     }
 }
