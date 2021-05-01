@@ -21,6 +21,6 @@ public class Map : MonoBehaviour
 
     void OnTriggerExit(Collider collider)
     {
-        player.GetComponent<Player>().resetPosition();
+        player.GetComponent<Player>().ResetPosition();
     }
 }

@@ -21,6 +21,7 @@ public class Player : MonoBehaviour
     public float jumpHeight = 200f;
 
     public bool isJumping = false;
+    public float distToGround;
 
     public Vector3 _inputs;
 
@@ -34,7 +35,9 @@ public class Player : MonoBehaviour
     public Vector3 startPosition = new Vector3(0.0f, 0.5f, -7.0f);
 
     void Start()
-    {}
+    {
+        distToGround = GetComponent<Collider>().bounds.extents.y;
+    }
 
     // Update is called once per frame
     void Update()
@@ -76,7 +79,7 @@ public class Player : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-        if (isJumping)
+        if (isJumping && IsGrounded())
         {
             isJumping = false;
         }
@@ -111,12 +114,16 @@ public class Player : MonoBehaviour
 
     void UpdateCamera()
     {
-        mainCamera.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 4.5f, player.transform.position.z - 8.0f);
+        mainCamera.transform.position = new Vector3(player.transform.position.x, player.transform.position.y + 3.5f, player.transform.position.z - 8.0f);
         mainCamera.transform.LookAt(player.transform.position);
     }
 
-    public void resetPosition()
+    public void ResetPosition()
     {
         player.transform.position = startPosition;
+    }
+
+    public bool IsGrounded(){
+        return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.3f);
     }
 }
