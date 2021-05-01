@@ -32,6 +32,8 @@ public class Player : MonoBehaviour
 
     public int shape = 1;
 
+    public bool control_camera = true;
+
     public Vector3 startPosition = new Vector3(0.0f, 0.5f, -7.0f);
 
     void Start()
@@ -74,7 +76,12 @@ public class Player : MonoBehaviour
             ChangeShape();
         }
 
-        UpdateCamera();
+        if (control_camera)
+        {
+            UpdateCamera();
+        }
+
+        
     }
 
     void OnCollisionEnter(Collision collision)
@@ -101,6 +108,7 @@ public class Player : MonoBehaviour
     void BuildCube()
     {
         player.GetComponent<MeshFilter>().mesh = cube;
+        player.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
         boxCollider.enabled = true;
         sphereCollider.enabled = false;
     }
@@ -108,6 +116,7 @@ public class Player : MonoBehaviour
     void BuildSphere()
     {
         player.GetComponent<MeshFilter>().mesh = sphere;
+        player.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
         boxCollider.enabled = false;
         sphereCollider.enabled = true;
     }
