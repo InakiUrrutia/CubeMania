@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+enum State
+{
+    READY = 1,
+    FINISHED = 2
+}
 public class Map : MonoBehaviour
 {
 

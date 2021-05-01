@@ -520,7 +520,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &549320950
 Light:
   m_ObjectHideFlags: 0
@@ -805,7 +805,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1357468873
 Transform:
   m_ObjectHideFlags: 0
@@ -1385,7 +1385,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!65 &2026396520
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1498,6 +1498,7 @@ MonoBehaviour:
   verSpeed: 0
   jumpHeight: 10
   isJumping: 0
+  distToGround: 0
   _inputs: {x: 0, y: 0, z: 0}
   sphere: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
   cube: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
@@ -1535,7 +1536,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &2035665991
 AudioListener:
   m_ObjectHideFlags: 0
