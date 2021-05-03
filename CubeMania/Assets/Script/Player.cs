@@ -55,8 +55,7 @@ public class Player : MonoBehaviour
 
         if (Input.GetButtonDown("Jump") && !isJumping) // Jumps when press spacebar
         {
-            _body.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
-            isJumping = true;
+            Jump();
         }
 
         if (isJumping) // Move while in air
@@ -134,5 +133,11 @@ public class Player : MonoBehaviour
 
     public bool IsGrounded(){
         return Physics.Raycast(transform.position, -Vector3.up, distToGround + 0.3f);
+    }
+
+    public void Jump()
+    {
+        _body.AddForce(Vector3.up * jumpHeight, ForceMode.VelocityChange);
+        isJumping = true;
     }
 }
