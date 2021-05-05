@@ -12,10 +12,12 @@ public class Map : MonoBehaviour
 
     public GameObject player;
 
+    public Vector3 startPosition;
+
     // Start is called before the first frame update
     void Start()
     {
-        player.GetComponent<Player>().startPosition = new Vector3(0.0f, 0.5f, -10.0f);
+        player.GetComponent<Player>().startPosition = startPosition;
     }
 
     // Update is called once per frame
