@@ -5,8 +5,8 @@ using UnityEngine;
 public class Button : MonoBehaviour
 {
 
-    float upPos = 0.25f;
-    float downPos = 0.0f;
+    float upPos = -0.25f;
+    float downPos = -0.40f;
 
     bool pressed = false;
 
@@ -55,7 +55,6 @@ public class Button : MonoBehaviour
 
         if (normal == -transform.up && button.transform.position.y > downPos)
         {
-            Debug.Log("is pressed");
             pressed = true;
         }
 
@@ -63,8 +62,6 @@ public class Button : MonoBehaviour
 
     void OnCollisionExit(Collision collision)
     {
-        Debug.Log("is not pressed");
         pressed = false;
-        
     }
 }

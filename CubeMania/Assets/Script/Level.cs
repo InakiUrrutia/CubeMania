@@ -27,12 +27,19 @@ public class Level : MonoBehaviour
     }
 
 
-    void OnCollisionEnter(Collision collider)
+    void OnTriggerEnter()
     {
-        Debug.Log("Hello end level");
-        loadNextScene();
+        StartCoroutine(DelayNextLevel(3));
     }
 
+
+    IEnumerator DelayNextLevel(float delayTime)
+    {
+        yield return new WaitForSeconds(delayTime);
+
+        Level.loadNextScene();
+
+    }
 
     void Start()
     {
